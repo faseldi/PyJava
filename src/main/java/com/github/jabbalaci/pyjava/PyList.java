@@ -3,6 +3,7 @@ package com.github.jabbalaci.pyjava;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 
@@ -88,5 +89,15 @@ public class PyList<T> extends ArrayList<T> implements IPyList<T>{
     public static <T extends Object & Comparable<? super T>> void reverse(List<T> li) {
         Collections.reverse(li);
     }
-
+    /**
+     * 
+     * @return the String representation of the list, the python way
+     */
+    @Override
+    public String toString() {
+        return "["+this.stream()
+                   .map(String::valueOf)
+                   .collect(Collectors.joining(", "))
+               +"]";
+    }
 }

@@ -1,16 +1,9 @@
 package com.github.jabbalaci.pyjava;
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.ArrayList;
 import java.util.List;
-
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
-
-import com.github.jabbalaci.pyjava.Common;
-import com.github.jabbalaci.pyjava.Py;
-import com.github.jabbalaci.pyjava.PyList;
-import com.github.jabbalaci.pyjava.ValueError;
 
 public class ListTest {
 	
@@ -388,5 +381,12 @@ public class ListTest {
         li = Py.to_list("");
         assertEquals(true, li.isEmpty());
     }
-    
+    @Test
+    public void testToString(){
+        IPyList<Integer> list = new PyList<>();
+        list.add(10);
+        list.add(15);
+        list.add(20);
+        assertEquals(list.toString(), "[10, 15, 20]");
+    }
 }
