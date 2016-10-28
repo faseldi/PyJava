@@ -19,18 +19,31 @@ public class PyList<T> extends ArrayList<T> implements IPyList<T>{
     /**
      * This method works like [begin:end] python do
      * @param begin The begining index
-     * @param end The starting index
+     * @param end The ending index
      * @return A new IPyList sliced
      */
     @Override
     public IPyList<T> slice(int begin, int end) {
+        return slice(begin, end, 1);
+    }
+    /**
+     * This method works like [begin:end] python do
+     * @param begin The begining index
+     * @param end The ending index
+     * @return A new IPyList sliced
+     */
+    @Override
+    public IPyList<T> slice(int begin, int end, int step) {
+        if(step == 0){
+            throw new ValueError("slice step cannot be zero");
+        }
         int size = size();
         // adapt begin and end to work like python
         if(begin < 0){
             begin = size + begin;
         }else{
             // if begin > 0 && end > 0
-            if(end > 0){
+            if(end > 0 && step == 1){
                 begin ++;
                 end ++;
             }
@@ -39,7 +52,6 @@ public class PyList<T> extends ArrayList<T> implements IPyList<T>{
             end = size+ end;
         }
         
-        PyList<T> slice = new PyList<>();
         // to avoid out of bounds and useless iterate
         if(begin < 0 ) {
             begin = 0;
@@ -55,12 +67,28 @@ public class PyList<T> extends ArrayList<T> implements IPyList<T>{
                 end = size;
             }
         }
+        return slicing(begin, end, step);
+    }
+    private IPyList slicing(int begin, int end, int step){
+        IPyList<T> slice = new PyList<>();
         // check if need to iterate
+        
         if(begin != end){
-            IntStream.range(begin, end)
-                    .forEach( i -> {
-                        slice.add(this.get(i));
-                    });
+            if(step < 0){ // reverse
+                IntStream.range(end+1, begin+1)
+                         .filter(i -> (i) % Math.abs(step) == 0)
+                         .forEach( i -> {
+                             slice.add(this.get(i));
+                         });
+                Collections.reverse(slice);
+            }else {
+                IntStream.range(begin, end)
+                         .filter(i -> (i+1) % Math.abs(step) == 0)
+                         .forEach( i -> {
+                             slice.add(this.get(i));
+                         });
+                
+            }
         }
         return slice;
     }
