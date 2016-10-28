@@ -43,9 +43,17 @@ public class PyList<T> extends ArrayList<T> implements IPyList<T>{
         // to avoid out of bounds and useless iterate
         if(begin < 0 ) {
             begin = 0;
+        }else {
+            if(begin > size) {
+                begin = size;
+            }
         }
         if(end < 0 ) {
             end = 0;
+        }else {
+            if(end > size) {
+                end = size;
+            }
         }
         // check if need to iterate
         if(begin != end){

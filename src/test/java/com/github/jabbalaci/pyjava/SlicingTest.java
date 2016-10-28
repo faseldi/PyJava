@@ -27,7 +27,6 @@ public class SlicingTest {
         IPyList<Integer> neededList = new PyList<>();
         neededList.add(8);
         neededList.add(9);
-        //list.slice(-3, 9).forEach(System.out::println);
         assertTrue(list.slice(-5, 9).equals(neededList));
         assertTrue(list.slice(-1000, 0).equals( new PyList<>() ));
     }
@@ -46,9 +45,14 @@ public class SlicingTest {
     @Test
     public void bothNegativeTest() {
         IPyList<Integer> list = getPyList(5, 12);
-        //list.slice(-7, -2).forEach(System.out::println);
         assertTrue(list.slice(-7, -2).equals( getPyList(5, 10) ));
         
+    }
+    @Test
+    public void bothOutOfBoundUp() {
+        IPyList<Integer> list = getPyList(5, 12);
+        assertTrue(list.slice(7, 100).equals(new PyList<>()));
+        assertTrue(list.slice(100000, 200000).equals(new PyList<>()));
     }
     @Test
     public void StringTest() {
