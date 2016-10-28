@@ -3,6 +3,7 @@ package com.github.jabbalaci.pyjava;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
+import org.junit.Assert;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
@@ -48,6 +49,14 @@ public class SlicingTest {
         //list.slice(-7, -2).forEach(System.out::println);
         assertTrue(list.slice(-7, -2).equals( getPyList(5, 10) ));
         
+    }
+    @Test
+    public void StringTest() {
+        Assert.assertEquals("ab", PyStr.slice("abcd", 0, 2));
+        Assert.assertEquals("ab", PyStr.slice("abcd", -100, 2));
+        Assert.assertEquals("abcd", PyStr.slice("abcd", 0, 200));
+        Assert.assertEquals("", PyStr.slice("abcd", 0, 0));
+        Assert.assertEquals("", PyStr.slice("abcd", 4, 4));
     }
     
     private static IPyList getPyList(int b, int e) {

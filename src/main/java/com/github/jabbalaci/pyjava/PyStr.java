@@ -11,7 +11,23 @@ import java.util.List;
  */
 
 public class PyStr {
-
+    public static String slice(String s, int begin, int end) {
+        if(begin < 0) {
+            begin = 0;
+        }else{
+            if(begin > s.length()){
+                begin = s.length();
+            }
+        }
+        if(end < 0) {
+            end = 0;
+        }else{
+            if(end > s.length()){
+                end = s.length();
+            }
+        }
+        return s.substring(begin, end);
+    }
     /**
      * @param s A string.
      * @return Capitalize the string.
