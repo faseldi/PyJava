@@ -11,6 +11,13 @@ import java.util.List;
  */
 
 public class PyStr {
+    /**
+     * 
+     * @param s the String to slice
+     * @param begin The begining index
+     * @param end The ending index
+     * @return the spliced Strimg
+     */
     public static String slice(String s, int begin, int end) {
         if(begin < 0) {
             begin = 0;
