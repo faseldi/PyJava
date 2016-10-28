@@ -3,6 +3,7 @@ package com.github.jabbalaci.pyjava;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.IntPredicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -67,6 +68,11 @@ public class PyList<T> extends ArrayList<T> implements IPyList<T>{
                 end = size;
             }
         }
+        if(step < 0){
+            int b = begin;
+            begin = end+1;
+            end = b + 1;
+        }
         return slicing(begin, end, step);
     }
     private IPyList slicing(int begin, int end, int step){
@@ -74,21 +80,15 @@ public class PyList<T> extends ArrayList<T> implements IPyList<T>{
         // check if need to iterate
         
         if(begin != end){
-            if(step < 0){ // reverse
-                IntStream.range(end+1, begin+1)
-                         .filter(i -> (i) % Math.abs(step) == 0)
-                         .forEach( i -> {
-                             slice.add(this.get(i));
-                         });
-                Collections.reverse(slice);
-            }else {
+                IntPredicate predicate = step >= 0 ? i -> (i+1) % Math.abs(step) == 0 : i -> (i) % Math.abs(step) == 0;
                 IntStream.range(begin, end)
-                         .filter(i -> (i+1) % Math.abs(step) == 0)
+                         .filter(predicate)
                          .forEach( i -> {
                              slice.add(this.get(i));
                          });
-                
-            }
+        }
+        if(step < 0){
+            Collections.reverse(slice);
         }
         return slice;
     }
