@@ -63,6 +63,28 @@ public class SlicingTest {
         Assert.assertEquals("", PyStr.slice("abcd", 4, 4));
     }
     
+    @Test
+    public void stepTest() {
+        IPyList<Integer> list = getPyList(1, 9);
+        IPyList  needed = new PyList<>();
+        needed.add(3);
+        needed.add(6);
+        assertTrue(list.slice(2,7,3).equals(needed));
+        list = getPyList(1, 20);
+
+        needed.clear();
+        needed.add(10);
+        needed.add(7);
+        needed.add(4);
+        
+        assertTrue(list.slice(-10,2,-3).equals(needed));
+        
+        needed = getPyList(4, 11);
+        PyList.reverse(needed);        
+        assertTrue(list.slice(-10,2,-1).equals(needed));
+
+    }
+    
     private static IPyList getPyList(int b, int e) {
         PyList<Integer> list = new PyList<>();
         IntStream.range(b,e)
